@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>45-Maktab — Elektron Ta'lim Tizimi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>45-Maktab — Elektron Ta'lim Tizimi (Teacher + AI Hybrid)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== 45-MAKTAB CSS ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --navy: #1a2e4a;
@@ -18,6 +17,9 @@
       --muted: #6b7280;
       --border: #e0dcd4;
       --danger: #b83232;
+      --success: #2e7d52;
+      --purple: #6b21a8;
+      --orange: #ea580c;
     }
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
     .hidden { display: none !important; }
@@ -28,17 +30,13 @@
     .login-box h2 { font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 1.5rem; text-align: center; }
     .input-group { margin-bottom: 1.25rem; }
     .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
-    .input-group input { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
-    .input-group input:focus { outline: none; border-color: var(--navy); }
-    .btn-login { width: 100%; padding: 0.75rem; background: var(--navy); color: var(--white); border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .btn-login:hover { background: var(--navy2); }
-    .error-msg { color: var(--danger); font-size: 0.875rem; margin-top: 0.5rem; text-align: center; font-weight: 500; }
-
+    .input-group input, .input-group select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; font-family: inherit; }
+    .btn-login { width: 100%; padding: 0.75rem; background: var(--navy); color: var(--white); border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    
     /* PANEL STYLE */
     header { background: var(--navy); color: var(--white); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--gold); }
     header h1 { font-family: 'Merriweather', serif; font-size: 1.5rem; }
     .logout-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
-    .logout-btn:hover { background: var(--gold); color: var(--navy); }
     
     .main-container { display: grid; grid-template-columns: 240px 1fr; flex: 1; }
     sidebar { background: var(--white); border-right: 1px solid var(--border); padding: 1.5rem 1rem; }
@@ -46,19 +44,40 @@
     sidebar li { padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; margin-bottom: 0.5rem; font-weight: 500; color: var(--muted); }
     sidebar li.active, sidebar li:hover { background: var(--navy); color: var(--white); }
     
-    content { padding: 2rem; }
-    .card { background: var(--white); padding: 2rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    content { padding: 2rem; overflow-x: auto; }
+    .card { background: var(--white); padding: 2rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 1.5rem; }
     .card h3 { font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 1.5rem; border-bottom: 2px solid var(--bg); padding-bottom: 0.5rem; }
     
+    /* STATS */
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .stat-item { background: var(--bg); padding: 1.5rem; border-radius: 6px; text-align: center; border-left: 4px solid var(--navy); }
     .stat-item div { font-size: 0.875rem; color: var(--muted); text-transform: uppercase; }
     .stat-item span { font-size: 2rem; font-weight: 700; color: var(--navy); }
 
+    /* BUTTONS */
+    .form-inline { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 10px; margin-bottom: 1.5rem; align-items: end; }
+    .btn-submit { background: var(--success); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; height: 45px; }
+    .btn-ai { background: var(--purple); color: white; padding: 12px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .btn-autopilot { background: var(--orange); color: white; padding: 12px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    .btn-danger { background: var(--danger); color: white; padding: 12px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-    th { background: var(--bg); color: var(--navy); font-weight: 600; }
-    .empty-text { text-align: center; color: var(--muted); padding: 2rem; }
+    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+    th { background: var(--bg); color: var(--navy); font-weight: 600; text-align: center; }
+    .empty-text { text-align: center; color: var(--muted); padding: 2rem; border: none; }
+    
+    .jurnal-filter { display: flex; gap: 15px; margin-bottom: 1.5rem; background: var(--bg); padding: 15px; border-radius: 6px; align-items: center; flex-wrap: wrap; }
+    .jurnal-filter select { padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border); font-size: 1rem; }
+
+    .day-cell { text-align: center; width: 35px; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
+    .day-cell:hover { background: #e2e8f0; }
+    .grade-badge { display: block; width: 100%; height: 100%; text-align: center; color: var(--navy); font-weight: bold; font-size: 1.1rem; }
+    .chorak-cell { background: #fef08a !important; color: #1e3a8a !important; font-weight: 800; font-size: 1.2rem; text-align: center; }
+
+    .jadval-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-top: 1.5rem; }
+    .day-card { background: var(--bg); padding: 15px; border-radius: 8px; border-top: 4px solid var(--navy); }
+    .day-card h4 { color: var(--navy); border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 10px; text-align: center; }
+    .lesson-item { background: white; padding: 8px; border-radius: 4px; margin-bottom: 5px; font-size: 0.9rem; border-left: 3px solid var(--gold); }
   </style>
 </head>
 <body class="page-login" id="body-wrapper">
@@ -66,7 +85,7 @@
   <div class="login-box" id="screen-login">
     <h2>45-Maktab Kirish</h2>
     <div class="input-group">
-      <label>Foydalanuvchi nomi</label>
+      <label>Login</label>
       <input type="text" id="loginUser" placeholder="admin">
     </div>
     <div class="input-group">
@@ -74,14 +93,14 @@
       <input type="password" id="loginPass" placeholder="••••••••">
     </div>
     <button class="btn-login" id="loginBtn">Tizimga kirish</button>
-    <div class="error-msg hidden" id="loginError">Login yoki parol xato!</div>
+    <div class="error-msg hidden" id="loginError" style="color:var(--danger); text-align:center; margin-top:5px;">Xato!</div>
   </div>
 
   <div id="screen-main" class="hidden" style="width: 100%; display: flex; flex-direction: column; flex: 1;">
     <header>
-      <h1>45-MAKTAB PANEL</h1>
+      <h1>45-MAKTAB E-MAKTAB TIZIMI</h1>
       <div style="display: flex; align-items: center; gap: 1rem;">
-        <span id="userDisplay" style="font-weight: 500;">Admin</span>
+        <span style="font-weight: 500;">Tizim Administratori (Admin)</span>
         <button class="logout-btn" id="logoutBtn">Chiqish</button>
       </div>
     </header>
@@ -89,60 +108,108 @@
     <div class="main-container">
       <sidebar>
         <ul>
-          <li class="active" data-tab="dashboard">Dashboard</li>
-          <li class="data-tab" data-tab="students">O'quvchilar</li>
-          <li class="data-tab" data-tab="teachers">O'qituvchilar</li>
-          <li class="data-tab" data-tab="grades">Baholar jurnali</li>
-          <li class="data-tab" data-tab="announcements">E'lonlar</li>
+          <li class="active" data-tab="dashboard">Dashboard (Tizim boshqaruvi)</li>
+          <li data-tab="students">O'quvchilar</li>
+          <li data-tab="teachers">O'qituvchilar</li>
+          <li data-tab="jurnal">Sentyabr Jurnali & Chorak</li>
+          <li data-tab="timetable">AI Dars Jadvali 🤖</li>
         </ul>
       </sidebar>
       
       <content>
         <div id="tab-dashboard" class="tab-content">
           <div class="card">
-            <h3>Maktab statistikasi</h3>
-            <div class="stats">
-              <div class="stat-item"><div>O'quvchilar</div><span>0</span></div>
-              <div class="stat-item"><div>O'qituvchilar</div><span>0</span></div>
-              <div class="stat-item"><div>Baholar</div><span>0</span></div>
+            <h3>45-Maktab joriy statistikasi</h3>
+            <div class="stats" style="margin-bottom: 2rem;">
+              <div class="stat-item"><div>Jami O'quvchilar</div><span id="dash-st-count">0</span></div>
+              <div class="stat-item"><div>Jami O'qituvchilar</div><span id="dash-tc-count">0</span></div>
+              <div class="stat-item"><div>Qo'yilgan Baholar</div><span id="dash-gr-count">0</span></div>
             </div>
+
+            <h3 style="border-top: 2px solid #eee; padding-top: 1.5rem; color: var(--orange);">🚀 Tizimni Avtomatik To'ldirish (Test Rejimi)</h3>
+            <p style="color: var(--muted); margin-bottom: 1.5rem;">
+              Qo'lda bittalab yozmaslik uchun tizimga o'qituvchi, o'quvchi va AI dars jadvalini avtomatik yuklash.
+            </p>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 2rem;">
+              <button class="btn-autopilot" onclick="aiFillDemoData()">1. Maktabni Demo Ma'lumotlar bilan to'ldirish</button>
+              <button class="btn-ai" onclick="generateAITimetable()">2. Dars Jadvalini AI orqali generatsiya qilish</button>
+            </div>
+
+            <h3 style="border-top: 2px solid #eee; padding-top: 1.5rem; color: var(--success);">🤖 AI Choraklik Baholash Algoritmi</h3>
+            <p style="color: var(--muted); margin-bottom: 1rem;">
+              O'qituvchilar qo'ygan kunlik baholardan kelib chiqib, barcha o'quvchilarning 1-chorak yakuniy bahosini sun'iy intellekt o'zi avtomatik hisoblab chiqsin.
+            </p>
+            <button class="btn-submit" style="background: var(--success); padding: 12px 25px;" onclick="aiCalculateQuarterGrades()">Chorak Baholarini AI Hisoblab Chiqsin 🤖</button>
+
+            <h3 style="border-top: 2px solid #eee; padding-top: 1.5rem; color: var(--danger);">📅 Yil Yakuni</h3>
+            <p style="color: var(--muted); margin-bottom: 1rem;">4-chorak to'liq yakunlangach barcha sinflarni 1 yil yuqoriga surish.</p>
+            <button class="btn-danger" onclick="autoPromoteClasses()">Barcha O'quvchilarni Keyingi Sinfga O'tkazish</button>
           </div>
         </div>
 
         <div id="tab-students" class="tab-content hidden">
           <div class="card">
-            <h3>O'quvchilar ro'yxati (e-maktab)</h3>
+            <h3>Yangi o'quvchi qo'shish</h3>
+            <div class="form-inline">
+              <input type="text" id="st-name" placeholder="Ism Familiya">
+              <select id="st-class-num"></select>
+              <select id="st-class-let"><option value="A">A</option><option value="B">B</option><option value="D">D</option></select>
+              <button class="btn-submit" onclick="addStudent()">Qo'shish</button>
+            </div>
+            <h3>O'quvchilar bazasi</h3>
             <table>
               <thead><tr><th>ID</th><th>F.I.O</th><th>Sinf</th></tr></thead>
-              <tbody><tr><td colspan="3" class="empty-text">Ma'lumot mavjud emas. (Baza bo'sh)</td></tr></tbody>
+              <tbody id="table-students-body"></tbody>
             </table>
           </div>
         </div>
 
         <div id="tab-teachers" class="tab-content hidden">
           <div class="card">
-            <h3>O'qituvchilar tarkibi</h3>
+            <h3>Yangi o'qituvchi qo'shish</h3>
+            <div class="form-inline">
+              <input type="text" id="tc-name" placeholder="O'qituvchi F.I.O" style="grid-column: span 2;">
+              <input type="text" id="tc-subject" placeholder="Fan nomi">
+              <button class="btn-submit" onclick="addTeacher()">Qo'shish</button>
+            </div>
+            <h3>O'qituvchilar ro'yxati</h3>
             <table>
-              <thead><tr><th>ID</th><th>F.I.O</th><th>Fan</th></tr></thead>
-              <tbody><tr><td colspan="3" class="empty-text">Ma'lumot mavjud emas. (Baza bo'sh)</td></tr></tbody>
+              <thead><tr><th>ID</th><th>F.I.O</th><th>Dars fani</th></tr></thead>
+              <tbody id="table-teachers-body"></tbody>
             </table>
           </div>
         </div>
 
-        <div id="tab-grades" class="tab-content hidden">
-          <div class="card">
-            <h3>Baholash jurnali</h3>
-            <table>
-              <thead><tr><th>O'quvchi</th><th>Fan</th><th>Baho</th><th>Sana</th></tr></thead>
-              <tbody><tr><td colspan="4" class="empty-text">Hozircha baholar qo'yilmagan.</td></tr></tbody>
-            </table>
+        <div id="tab-jurnal" class="tab-content hidden">
+          <div class="card" style="min-width: 1200px; overflow-x: auto;">
+            <h3>Elektron Jurnal — O'qituvchilar Bahosi va AI Chorak Yakuni</h3>
+            <div class="jurnal-filter">
+              <label>Sinf:</label>
+              <select id="filter-class-num" onchange="loadJurnal()"></select>
+              <select id="filter-class-let" onchange="loadJurnal()"><option value="A">A</option><option value="B">B</option><option value="D">D</option></select>
+              <label style="margin-left:20px;">Fan:</label>
+              <select id="jurnal-subject" onchange="loadJurnal()"></select>
+              
+              <span style="margin-left: auto; font-size: 13px; color: var(--muted);">💡 Kunlik katakni bosib o'qituvchi o'zi baho qo'yadi. Oxirgi sariq katakni AI o'zi hisoblaydi!</span>
+            </div>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; table-layout: fixed;">
+                <thead><tr id="jurnal-header-row"></tr></thead>
+                <tbody id="table-jurnal-body"></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <div id="tab-announcements" class="tab-content hidden">
+        <div id="tab-timetable" class="tab-content hidden">
           <div class="card">
-            <h3>Maktab ichki e'lonlari</h3>
-            <p class="empty-text">Hozircha hech qanday e'lon joylashtirilmagan.</p>
+            <h3>🤖 AI Tomonidan Generatsiya Qilingan Dars Jadvali</h3>
+            <div class="jurnal-filter" style="margin-top:10px;">
+              <label>Sinf jadvali:</label>
+              <select id="tt-class-num" onchange="renderTimetable()"></select>
+              <select id="tt-class-let" onchange="renderTimetable()"><option value="A">A</option><option value="B">B</option><option value="D">D</option></select>
+            </div>
+            <div class="jadval-grid" id="timetable-output"></div>
           </div>
         </div>
       </content>
@@ -150,40 +217,278 @@
   </div>
 
   <script>
-    // GitHub uchun to'g'ridan-to'g'ri login tekshiruvi (PHP server shartmas)
-    document.getElementById('loginBtn').addEventListener('click', function() {
-      const u = document.getElementById('loginUser').value.strip ? document.getElementById('loginUser').value.strip() : document.getElementById('loginUser').value;
-      const p = document.getElementById('loginPass').value;
-      const err = document.getElementById('loginError');
+    let ST_DATA = JSON.parse(localStorage.getItem('45_students')) || [];
+    let TC_DATA = JSON.parse(localStorage.getItem('45_teachers')) || [];
+    let GR_DATA = JSON.parse(localStorage.getItem('45_grades')) || [];
+    let Q_DATA = JSON.parse(localStorage.getItem('45_quarter_grades')) || []; // Chorak baholari bazasi
+    let TT_DATA = JSON.parse(localStorage.getItem('45_timetable')) || {};
 
-      if (u === 'admin' && p === 'admin123') {
-        err.classList.add('hidden');
+    const ismlar = ["Eshmat", "Toshmat", "Ali", "Vali", "Bobur", "Ziyoxon", "Farhod", "Olim", "Rustam", "Sardor", "Nodir", "Jasur", "Madina", "Laylo", "Malika", "Zilola", "Gulsanam", "Ra'no", "Shahnoza", "Diyora"];
+    const familiyalar = ["Xo'jayev", "Karimov", "Olimov", "Rahimov", "Sultonov", "Abduvaliyev", "Toshpulatov", "Asadov", "Hasanov", "Ibragimov"];
+    const fanlar = ["Matematika", "Ona tili", "Ingliz tili", "Fizika", "Kimyo", "Tarix", "Biologiya", "Informatika"];
+
+    function saveToLocalStorage() {
+      localStorage.setItem('45_students', JSON.stringify(ST_DATA));
+      localStorage.setItem('45_teachers', JSON.stringify(TC_DATA));
+      localStorage.setItem('45_grades', JSON.stringify(GR_DATA));
+      localStorage.setItem('45_quarter_grades', JSON.stringify(Q_DATA));
+      localStorage.setItem('45_timetable', JSON.stringify(TT_DATA));
+      updateDashboardCounts();
+    }
+
+    window.onload = function() {
+      const numOptions = Array.from({length: 11}, (_, i) => `<option value="${i+1}">${i+1}-sinf</option>`).join('');
+      document.getElementById('st-class-num').innerHTML = numOptions;
+      document.getElementById('filter-class-num').innerHTML = numOptions;
+      document.getElementById('tt-class-num').innerHTML = numOptions;
+      buildJurnalHeader();
+      updateDashboardCounts();
+      populateSubjects();
+    }
+
+    function updateDashboardCounts() {
+      document.getElementById('dash-st-count').innerText = ST_DATA.length;
+      document.getElementById('dash-tc-count').innerText = TC_DATA.length;
+      document.getElementById('dash-gr-count').innerText = GR_DATA.length;
+    }
+
+    function buildJurnalHeader() {
+      const headerRow = document.getElementById('jurnal-header-row');
+      let html = `<th style="width: 200px; text-align: left;">O'quvchi F.I.O</th>`;
+      for (let day = 1; day <= 30; day++) {
+        html += `<th style="width: 32px; font-size: 11px; padding: 5px 1px;">${day}</th>`;
+      }
+      html += `<th style="width: 75px; background: #eab308; color: white;">1-Chorak</th>`; // Chorak sarlavhasi
+      headerRow.innerHTML = html;
+    }
+
+    function populateSubjects() {
+      const select = document.getElementById('jurnal-subject');
+      if(TC_DATA.length === 0) {
+        select.innerHTML = fanlar.map(f => `<option value="${f}">${f}</option>`).join('');
+      } else {
+        select.innerHTML = TC_DATA.map(t => `<option value="${t.subject}">${t.subject}</option>`).join('');
+      }
+    }
+
+    /* 🤖 SUN'IY INTELLEKT (AI) CHORAK BAHOLASH ALGORITMI */
+    function aiCalculateQuarterGrades() {
+      if (ST_DATA.length === 0 || GR_DATA.length === 0) {
+        alert("Chorakni hisoblash uchun tizimda o'quvchilar va kamida o'qituvchilar tomonidan qo'yilgan kunlik baholar bo'lishi kerak!");
+        return;
+      }
+
+      Q_DATA = []; // Eskilarini yangilaymiz
+
+      ST_DATA.forEach(student => {
+        fanlar.forEach(fan => {
+          // O'quvchining shu fandagi barcha kunlik baholarini yig'ib olamiz
+          let studentGrades = GR_DATA.filter(g => g.studentId === student.id && g.subject === fan).map(g => parseInt(g.grade));
+
+          if (studentGrades.length > 0) {
+            // O'rtacha bahosini hisoblaymiz (Arifmetik o'rtacha)
+            let sum = studentGrades.reduce((a, b) => a + b, 0);
+            let avg = sum / studentGrades.length;
+
+            // Sun'iy intellekt yaxlitlash qoidasi: 3.5 dan yuqori bo'lsa 4, 4.5 dan yuqori bo'lsa 5
+            let finalQuarterGrade = Math.round(avg);
+
+            // Agar o'quvchi juda kam baho olgan bo'lsa, AI pastroq baholaydi
+            if(studentGrades.length < 3 && finalQuarterGrade > 3) {
+              finalQuarterGrade = finalQuarterGrade - 1; // Baholar soni kamligi uchun ceffitsiyent kamayadi
+            }
+
+            Q_DATA.push({
+              studentId: student.id,
+              subject: fan,
+              quarterGrade: finalQuarterGrade
+            });
+          }
+        });
+      });
+
+      saveToLocalStorage();
+      alert("🤖 AI muvaffaqiyatli yakunladi!\nO'qituvchilar qo'ygan kunlik baholarni tahlil qilib, barcha o'quvchilarning choraklik yakuniy baholarini avtomatik chiqarib berdi.");
+      loadJurnal();
+    }
+
+    /* JURNALNI CHIQARISH */
+    function loadJurnal() {
+      const num = document.getElementById('filter-class-num').value;
+      const letr = document.getElementById('filter-class-let').value;
+      const targetClass = `${num}-${letr}`;
+      const subject = document.getElementById('jurnal-subject').value;
+      const filtered = ST_DATA.filter(s => s.class === targetClass);
+      const tbody = document.getElementById('table-jurnal-body');
+
+      if(filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="32" class="empty-text">Bu sinfda o'quvchi yo'q. Avval o'quvchi qo'shing yoki AI Avtopilotni bosing.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(s => {
+        let row = `<tr><td><strong>${s.name}</strong></td>`;
+        
+        // Kunlik o'qituvchi baholari
+        for (let day = 1; day <= 30; day++) {
+          const gObj = GR_DATA.find(g => g.studentId === s.id && g.day === day && g.subject === subject);
+          row += `<td class="day-cell" onclick="promptGrade(${s.id}, ${day}, '${subject}')"><span class="grade-badge" id="g-${s.id}-${day}">${gObj ? gObj.grade : ''}</span></td>`;
+        }
+
+        // AI tomonidan hisoblangan Choraklik baho (Sariq katakda)
+        const qObj = Q_DATA.find(q => q.studentId === s.id && q.subject === subject);
+        let quarterDisplay = qObj ? qObj.quarterGrade : '-';
+
+        row += `<td class="chorak-cell">${quarterDisplay}</td>`;
+        return row + `</tr>`;
+      }).join('');
+    }
+
+    /* O'QITUVCHI O'ZI BAHONI QO'YISHI */
+    function promptGrade(studentId, day, subject) {
+      const el = document.getElementById(`g-${studentId}-${day}`);
+      const res = prompt(`[O'qituvchi jurnali] ${day}-sentyabr uchun baho kiriting (5, 4, 3, 2) yoki o'chirish uchun bo'sh qoldiring:`, el.innerText);
+      if (res === null) return;
+      
+      GR_DATA = GR_DATA.filter(g => !(g.studentId === studentId && g.day === day && g.subject === subject));
+      
+      if (['5','4','3','2'].includes(res.trim())) {
+        GR_DATA.push({ studentId: studentId, day: day, subject: subject, grade: res.trim() });
+        el.innerText = res.trim();
+      } else if (res.trim() === '') { 
+        el.innerText = ''; 
+      }
+      saveToLocalStorage();
+    }
+
+    /* DEMO MA'LUMOTLARNI AI BILAN GENERATSIYA QILISH */
+    function aiFillDemoData() {
+      ST_DATA = []; TC_DATA = []; GR_DATA = []; Q_DATA = []; TT_DATA = {};
+      
+      fanlar.forEach((fan, index) => {
+        let tName = familiyalar[Math.floor(Math.random()*familiyalar.length)] + " " + ismlar[Math.floor(Math.random()*ismlar.length)];
+        TC_DATA.push({ id: index+1, name: "O'qit. " + tName, subject: fan });
+      });
+
+      let stId = 1;
+      for(let num=1; num<=11; num++) {
+        ["A", "B", "D"].forEach(lettr => {
+          for(let k=1; k<=5; k++) {
+            let sName = familiyalar[Math.floor(Math.random()*familiyalar.length)] + " " + ismlar[Math.floor(Math.random()*ismlar.length)];
+            ST_DATA.push({ id: stId++, name: sName, class: `${num}-${lettr}` });
+          }
+        });
+      }
+
+      // O'qituvchilar darsda qo'ygandek tasodifiy kunlik baholar urib chiqiladi (AI chorakni hisoblashi uchun baza yaratish)
+      ST_DATA.forEach(student => {
+        for (let day = 1; day <= 30; day++) {
+          if (Math.random() > 0.6) {
+            let randomSub = fanlar[Math.floor(Math.random() * fanlar.length)];
+            let randomGrade = ["5", "4", "3", "5", "4"][Math.floor(Math.random() * 5)];
+            GR_DATA.push({ studentId: student.id, day: day, subject: randomSub, grade: randomGrade });
+          }
+        }
+      });
+
+      saveToLocalStorage();
+      populateSubjects();
+      alert("Demo ma'lumotlar muvaffaqiyatli yaratildi!\nO'qituvchilar qo'ygan kunlik baholar simulyatsiya qilindi. Endi AI choraklik tugmasini bosib tekshirib ko'rishingiz mumkin.");
+    }
+
+    function generateAITimetable() {
+      if (TC_DATA.length === 0) return alert("Avval bazani yuklang!");
+      const days = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+      TT_DATA = {};
+      for (let num = 1; num <= 11; num++) {
+        ["A", "B", "D"].forEach(lettr => {
+          let className = `${num}-${lettr}`;
+          TT_DATA[className] = {};
+          days.forEach(day => {
+            TT_DATA[className][day] = [];
+            let maxLessons = num <= 4 ? 4 : 5;
+            for (let i = 1; i <= maxLessons; i++) {
+              let rTeacher = TC_DATA[Math.floor(Math.random() * TC_DATA.length)];
+              TT_DATA[className][day].push({ num: i, subject: rTeacher.subject, teacher: rTeacher.name });
+            }
+          });
+        });
+      }
+      saveToLocalStorage();
+      alert("AI haftalik dars jadvalini tuzdi!");
+    }
+
+    function autoPromoteClasses() {
+      if (ST_DATA.length === 0) return alert("O'quvchilar yo'q!");
+      if (!confirm("O'quvchilarni keyingi sinfga o'tkazmoqchimisiz?")) return;
+      ST_DATA = ST_DATA.map(student => {
+        let parts = student.class.split('-');
+        let num = parseInt(parts[0]);
+        if (num === 11) return null;
+        return { ...student, class: `${num + 1}-${parts[1]}` };
+      }).filter(s => s !== null);
+      GR_DATA = []; Q_DATA = [];
+      saveToLocalStorage();
+      alert("Yangi o'quv yili! O'quvchilar yuqori sinfga ko'chirildi.");
+    }
+
+    function renderTimetable() {
+      const className = `${document.getElementById('tt-class-num').value}-${document.getElementById('tt-class-let').value}`;
+      const output = document.getElementById('timetable-output');
+      if (!TT_DATA[className]) { output.innerHTML = `<div class="empty-text">Jadval yo'q.</div>`; return; }
+      const days = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+      output.innerHTML = days.map(day => {
+        let lesHtml = (TT_DATA[className][day] || []).map(l => `<div class="lesson-item"><strong>${l.num}.</strong> ${l.subject}<br><span style="font-size:11px;color:var(--muted);">${l.teacher}</span></div>`).join('');
+        return `<div class="day-card"><h4>${day}</h4>${lesHtml}</div>`;
+      }).join('');
+    }
+
+    function addStudent() {
+      const name = document.getElementById('st-name').value.trim();
+      const cls = `${document.getElementById('st-class-num').value}-${document.getElementById('st-class-let').value}`;
+      if(!name) return;
+      ST_DATA.push({ id: Date.now(), name: name, class: cls });
+      document.getElementById('st-name').value = '';
+      saveToLocalStorage(); renderStudents();
+    }
+    function renderStudents() {
+      document.getElementById('table-students-body').innerHTML = ST_DATA.map(s => `<tr><td>${s.id}</td><td>${s.name}</td><td><strong>${s.class}-sinf</strong></td></tr>`).join('');
+    }
+    function addTeacher() {
+      const name = document.getElementById('tc-name').value.trim();
+      const sub = document.getElementById('tc-subject').value.trim();
+      if(!name || !sub) return;
+      TC_DATA.push({ id: Date.now(), name: name, subject: sub });
+      document.getElementById('tc-name').value = ''; document.getElementById('tc-subject').value = '';
+      saveToLocalStorage(); renderTeachers(); populateSubjects();
+    }
+    function renderTeachers() {
+      document.getElementById('table-teachers-body').innerHTML = TC_DATA.map(t => `<tr><td>${t.id}</td><td>${t.name}</td><td>${t.subject}</td></tr>`).join('');
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      if(document.getElementById('loginUser').value === 'admin' && document.getElementById('loginPass').value === 'admin123') {
         document.getElementById('body-wrapper').classList.remove('page-login');
         document.getElementById('screen-login').classList.add('hidden');
         document.getElementById('screen-main').classList.remove('hidden');
-      } else {
-        err.classList.remove('hidden');
-      }
+      } else { document.getElementById('loginError').classList.remove('hidden'); }
     });
-
-    // Chiqish tugmasi
     document.getElementById('logoutBtn').addEventListener('click', function() {
       document.getElementById('body-wrapper').classList.add('page-login');
       document.getElementById('screen-main').classList.add('hidden');
       document.getElementById('screen-login').classList.remove('hidden');
-      document.getElementById('loginUser').value = '';
-      document.getElementById('loginPass').value = '';
     });
-
-    // Tablarni almashtirish paneli
-    document.querySelectorAll('sidebar li').forEach(li => {
+    document.querySelectorAll('sidebar ul li').forEach(li => {
       li.addEventListener('click', function() {
-        document.querySelectorAll('sidebar li').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('sidebar ul li').forEach(i => i.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
-        
         this.classList.add('active');
         const tab = this.getAttribute('data-tab');
         document.getElementById(`tab-${tab}`).classList.remove('hidden');
+        if(tab === 'students') renderStudents();
+        if(tab === 'teachers') renderTeachers();
+        if(tab === 'jurnal') loadJurnal();
+        if(tab === 'timetable') renderTimetable();
       });
     });
   </script>
