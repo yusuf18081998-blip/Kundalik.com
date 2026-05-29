@@ -1,0 +1,10 @@
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+</IfModule>
+
+# Agar so'rov OPTIONS (Preflight) bo'lsa, PHP-ga o'tkazmasdan to'g'ridan-to'g'ri 200 OK qaytarish
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ - [R=200,L]
