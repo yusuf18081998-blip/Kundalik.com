@@ -1,338 +1,191 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>45-Maktab — Elektron Ta'lim Tizimi</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --navy: #1a2e4a;
-            --gold: #c9a84c;
-            --bg: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-main: #2b2b2b;
-            --text-muted: #666666;
-            --border: #e0e4ec;
-            --success: #2e7d32;
-            --danger: #c62828;
-            --font-title: 'Merriweather', serif;
-            --font-body: 'Source Sans 3', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>45-Maktab — Elektron Ta'lim Tizimi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 45-MAKTAB CSS ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a2e4a;
+      --navy2: #243a5c;
+      --gold: #c9a84c;
+      --white: #ffffff;
+      --bg: #f4f6f9;
+      --text: #1e1e1e;
+      --muted: #6b7280;
+      --border: #e0dcd4;
+      --danger: #b83232;
+    }
+    body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+    .hidden { display: none !important; }
+    
+    /* LOGIN STYLE */
+    .page-login { display: flex; justify-content: center; align-items: center; height: 100vh; background: var(--navy); }
+    .login-box { background: var(--white); padding: 2.5rem; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-top: 6px solid var(--gold); }
+    .login-box h2 { font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 1.5rem; text-align: center; }
+    .input-group { margin-bottom: 1.25rem; }
+    .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+    .input-group input { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+    .input-group input:focus { outline: none; border-color: var(--navy); }
+    .btn-login { width: 100%; padding: 0.75rem; background: var(--navy); color: var(--white); border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .btn-login:hover { background: var(--navy2); }
+    .error-msg { color: var(--danger); font-size: 0.875rem; margin-top: 0.5rem; text-align: center; font-weight: 500; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-body); background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
-        
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .hidden { display: none !important; }
+    /* PANEL STYLE */
+    header { background: var(--navy); color: var(--white); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--gold); }
+    header h1 { font-family: 'Merriweather', serif; font-size: 1.5rem; }
+    .logout-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .logout-btn:hover { background: var(--gold); color: var(--navy); }
+    
+    .main-container { display: grid; grid-template-columns: 240px 1fr; flex: 1; }
+    sidebar { background: var(--white); border-right: 1px solid var(--border); padding: 1.5rem 1rem; }
+    sidebar ul { list-style: none; }
+    sidebar li { padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; margin-bottom: 0.5rem; font-weight: 500; color: var(--muted); }
+    sidebar li.active, sidebar li:hover { background: var(--navy); color: var(--white); }
+    
+    content { padding: 2rem; }
+    .card { background: var(--white); padding: 2rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .card h3 { font-family: 'Merriweather', serif; color: var(--navy); margin-bottom: 1.5rem; border-bottom: 2px solid var(--bg); padding-bottom: 0.5rem; }
+    
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .stat-item { background: var(--bg); padding: 1.5rem; border-radius: 6px; text-align: center; border-left: 4px solid var(--navy); }
+    .stat-item div { font-size: 0.875rem; color: var(--muted); text-transform: uppercase; }
+    .stat-item span { font-size: 2rem; font-weight: 700; color: var(--navy); }
 
-        /* HEADER & BRANDING */
-        header { background-color: var(--navy); color: #fff; padding: 20px 0; border-bottom: 4px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-text h1 { font-family: var(--font-title); font-size: 24px; letter-spacing: 0.5px; }
-        .logo-text p { font-size: 12px; color: var(--gold); text-transform: uppercase; font-weight: 600; }
-        .user-nav { display: flex; align-items: center; gap: 15px; }
-        .btn-logout { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 15px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .btn-logout:hover { background: var(--gold); color: var(--navy); }
-
-        /* LOGIN SCREEN */
-        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
-        .login-card { background: var(--card-bg); padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 5px solid var(--navy); }
-        .login-card h2 { font-family: var(--font-title); margin-bottom: 25px; text-align: center; color: var(--navy); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
-        .form-control { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-body); font-size: 15px; }
-        .form-control:focus { border-color: var(--navy); outline: none; }
-        .btn-login { width: 100%; background: var(--navy); color: #fff; padding: 12px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-login:hover { background: #233d62; }
-        .login-err { color: var(--danger); font-size: 14px; text-align: center; margin-top: 15px; font-weight: 600; }
-
-        /* MAIN LAYOUT */
-        .main-layout { display: grid; grid-template-columns: 260px 1fr; gap: 30px; margin-top: 30px; }
-        
-        /* SIDEBAR */
-        .sidebar { background: var(--card-bg); border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid var(--border); height: fit-content; }
-        .menu-list { list-style: none; }
-        .menu-item { padding: 12px 15px; border-radius: 6px; cursor: pointer; margin-bottom: 8px; font-weight: 600; color: var(--text-muted); transition: 0.2s; }
-        .menu-item:hover, .menu-item.active { background-color: var(--navy); color: #fff; }
-
-        /* DASHBOARD & CONTENT */
-        .content-area { display: flex; flex-direction: column; gap: 30px; }
-        .card { background: var(--card-bg); border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid var(--border); }
-        .card-title { font-family: var(--font-title); font-size: 18px; margin-bottom: 20px; color: var(--navy); border-bottom: 2px solid var(--bg); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-
-        /* STATS GRID */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .stat-box { background: var(--bg); padding: 20px; border-radius: 6px; text-align: center; border-left: 4px solid var(--navy); }
-        .stat-box h3 { font-size: 14px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
-        .stat-box p { font-size: 28px; font-weight: 700; color: var(--navy); }
-
-        /* TABLES */
-        .table-responsive { overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 15px; }
-        th { background-color: var(--bg); padding: 12px; font-weight: 600; color: var(--navy); border-bottom: 2px solid var(--border); }
-        td { padding: 12px; border-bottom: 1px solid var(--border); }
-        tr:hover td { background-color: #fafbfc; }
-
-        /* ANNOUNCEMENTS */
-        .ann-list { display: flex; flex-direction: column; gap: 15px; }
-        .ann-item { padding: 15px; border-radius: 6px; border: 1px solid var(--border); background: #fafafa; }
-        .ann-item.urgent { border-left: 4px solid var(--danger); background: #fff8f8; }
-        .ann-item.info { border-left: 4px solid var(--navy); background: #f4f7fa; }
-        .ann-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
-        .ann-body h4 { font-family: var(--font-title); font-size: 15px; color: var(--navy); margin-bottom: 4px; }
-        .ann-body p { font-size: 14px; color: var(--text-main); }
-
-        /* BUTTONS & FORMS IN CONTENT */
-        .btn-add { background: var(--gold); color: var(--navy); padding: 8px 16px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; }
-        .btn-add:hover { background: #b5943b; color: #fff; }
-    </style>
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--bg); color: var(--navy); font-weight: 600; }
+    .empty-text { text-align: center; color: var(--muted); padding: 2rem; }
+  </style>
 </head>
-<body>
+<body class="page-login" id="body-wrapper">
 
-    <header>
-        <div class="container header-content">
-            <div class="logo-area">
-                <div class="logo-text">
-                    <h1>45-MAKTAB</h1>
-                    <p>Elektron Ta'lim Platformasi</p>
-                </div>
-            </div>
-            <div class="user-nav hidden" id="user-nav">
-                <span id="user-display" style="font-weight: 600; margin-right: 10px;">Foydalanuvchi</span>
-                <button class="btn-logout" onclick="logout()">Chiqish</button>
-            </div>
-        </div>
-    </header>
-
-    <div class="container">
-        
-        <div class="login-wrapper" id="screen-login">
-            <div class="login-card">
-                <h2>Tizimga Kirish</h2>
-                <div class="form-group">
-                    <label>Foydalanuvchi nomi (Login)</label>
-                    <input type="text" id="login-username" class="form-control" placeholder="admin">
-                </div>
-                <div class="form-group">
-                    <label>Parol</label>
-                    <input type="password" id="login-password" class="form-control" placeholder="••••••••">
-                </div>
-                <button class="btn-login" onclick="login()">Kirish</button>
-                <div class="login-err id" id="login-error"></div>
-            </div>
-        </div>
-
-        <div class="main-layout hidden" id="screen-main">
-            <aside class="sidebar">
-                <ul class="menu-list">
-                    <li class="menu-item active" onclick="switchTab('dashboard', this)">Dashboard</li>
-                    <li class="menu-item" onclick="switchTab('students', this)">O'quvchilar</li>
-                    <li class="menu-item" onclick="switchTab('teachers', this)">O'qituvchilar</li>
-                    <li class="menu-item" onclick="switchTab('grades', this)">Baholar jurnali</li>
-                    <li class="menu-item" onclick="switchTab('announcements', this)">E'lonlar</li>
-                </ul>
-            </aside>
-
-            <main class="content-area">
-                
-                <div id="tab-dashboard" class="tab-content">
-                    <div class="card">
-                        <div class="card-title">Maktab umumiy holati</div>
-                        <div class="stats-grid">
-                            <div class="stat-box">
-                                <h3>O'quvchilar</h3>
-                                <p id="stat-students">0</p>
-                            </div>
-                            <div class="stat-box">
-                                <h3>O'qituvchilar</h3>
-                                <p id="stat-teachers">0</p>
-                            </div>
-                            <div class="stat-box">
-                                <h3>Qo'yilgan baholar</h3>
-                                <p id="stat-grades">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-students" class="tab-content hidden">
-                    <div class="card">
-                        <div class="card-title">
-                            <span>O'quvchilar ro'yxati</span>
-                        </div>
-                        <div class="table-responsive">
-                            <table>
-                                id="table-students-head">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>F.I.O</th>
-                                        <th>Sinf</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="data-students">
-                                    <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Ma'lumot mavjud emas. (e-maktab)</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-teachers" class="tab-content hidden">
-                    <div class="card">
-                        <div class="card-title">O'qituvchilar tarkibi</div>
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>F.I.O</th>
-                                        <th>Mutaxassisligi (Fan)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="data-teachers">
-                                    <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Ma'lumot mavjud emas. (e-maktab)</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-grades" class="tab-content hidden">
-                    <div class="card">
-                        <div class="card-title">Baholash jurnali</div>
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>O'quvchi</th>
-                                        <th>Fan</th>
-                                        <th>Baho</th>
-                                        <th>Sana</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="data-grades">
-                                    <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Hozircha baholar qo'yilmagan.</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-announcements" class="tab-content hidden">
-                    <div class="card">
-                        <div class="card-title">Maktab ichki e'lonlari</div>
-                        <div class="ann-list" id="data-announcements">
-                            <p style="text-align:center; color:var(--text-muted);">Hozircha hech qanday e'lon mavjud emas.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
-        </div>
+  <div class="login-box" id="screen-login">
+    <h2>45-Maktab Kirish</h2>
+    <div class="input-group">
+      <label>Foydalanuvchi nomi</label>
+      <input type="text" id="loginUser" placeholder="admin">
     </div>
+    <div class="input-group">
+      <label>Parol</label>
+      <input type="password" id="loginPass" placeholder="••••••••">
+    </div>
+    <button class="btn-login" id="loginBtn">Tizimga kirish</button>
+    <div class="error-msg hidden" id="loginError">Login yoki parol xato!</div>
+  </div>
 
-    <script>
-        const API_URL = 'http://localhost:8000/api.php';
-        let authToken = '';
+  <div id="screen-main" class="hidden" style="width: 100%; display: flex; flex-direction: column; flex: 1;">
+    <header>
+      <h1>45-MAKTAB PANEL</h1>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <span id="userDisplay" style="font-weight: 500;">Admin</span>
+        <button class="logout-btn" id="logoutBtn">Chiqish</button>
+      </div>
+    </header>
+    
+    <div class="main-container">
+      <sidebar>
+        <ul>
+          <li class="active" data-tab="dashboard">Dashboard</li>
+          <li class="data-tab" data-tab="students">O'quvchilar</li>
+          <li class="data-tab" data-tab="teachers">O'qituvchilar</li>
+          <li class="data-tab" data-tab="grades">Baholar jurnali</li>
+          <li class="data-tab" data-tab="announcements">E'lonlar</li>
+        </ul>
+      </sidebar>
+      
+      <content>
+        <div id="tab-dashboard" class="tab-content">
+          <div class="card">
+            <h3>Maktab statistikasi</h3>
+            <div class="stats">
+              <div class="stat-item"><div>O'quvchilar</div><span>0</span></div>
+              <div class="stat-item"><div>O'qituvchilar</div><span>0</span></div>
+              <div class="stat-item"><div>Baholar</div><span>0</span></div>
+            </div>
+          </div>
+        </div>
 
-        async function login() {
-            const u = document.getElementById('login-username').value;
-            const p = document.getElementById('login-password').value;
-            const err = document.getElementById('login-error');
-            err.innerText = '';
+        <div id="tab-students" class="tab-content hidden">
+          <div class="card">
+            <h3>O'quvchilar ro'yxati (e-maktab)</h3>
+            <table>
+              <thead><tr><th>ID</th><th>F.I.O</th><th>Sinf</th></tr></thead>
+              <tbody><tr><td colspan="3" class="empty-text">Ma'lumot mavjud emas. (Baza bo'sh)</td></tr></tbody>
+            </table>
+          </div>
+        </div>
 
-            try {
-                const response = await fetch(`${API_URL}/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: u, password: p })
-                });
-                const resData = await response.json();
+        <div id="tab-teachers" class="tab-content hidden">
+          <div class="card">
+            <h3>O'qituvchilar tarkibi</h3>
+            <table>
+              <thead><tr><th>ID</th><th>F.I.O</th><th>Fan</th></tr></thead>
+              <tbody><tr><td colspan="3" class="empty-text">Ma'lumot mavjud emas. (Baza bo'sh)</td></tr></tbody>
+            </table>
+          </div>
+        </div>
 
-                if (!response.ok) {
-                    err.innerText = resData.error || 'Xatolik yuz berdi';
-                    return;
-                }
+        <div id="tab-grades" class="tab-content hidden">
+          <div class="card">
+            <h3>Baholash jurnali</h3>
+            <table>
+              <thead><tr><th>O'quvchi</th><th>Fan</th><th>Baho</th><th>Sana</th></tr></thead>
+              <tbody><tr><td colspan="4" class="empty-text">Hozircha baholar qo'yilmagan.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
 
-                authToken = resData.token;
-                document.getElementById('user-display').innerText = `${resData.name} (${resData.role})`;
-                
-                document.getElementById('screen-login').classList.add('hidden');
-                document.getElementById('screen-main').classList.remove('hidden');
-                document.getElementById('user-nav').classList.remove('hidden');
+        <div id="tab-announcements" class="tab-content hidden">
+          <div class="card">
+            <h3>Maktab ichki e'lonlari</h3>
+            <p class="empty-text">Hozircha hech qanday e'lon joylashtirilmagan.</p>
+          </div>
+        </div>
+      </content>
+    </div>
+  </div>
 
-                loadDashboard();
-            } catch (e) {
-                err.innerText = 'Serverga ulanishda xatolik!';
-            }
-        }
+  <script>
+    // GitHub uchun to'g'ridan-to'g'ri login tekshiruvi (PHP server shartmas)
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      const u = document.getElementById('loginUser').value.strip ? document.getElementById('loginUser').value.strip() : document.getElementById('loginUser').value;
+      const p = document.getElementById('loginPass').value;
+      const err = document.getElementById('loginError');
 
-        function logout() {
-            authToken = '';
-            document.getElementById('screen-main').classList.add('hidden');
-            document.getElementById('user-nav').classList.add('hidden');
-            document.getElementById('screen-login').classList.remove('hidden');
-        }
+      if (u === 'admin' && p === 'admin123') {
+        err.classList.add('hidden');
+        document.getElementById('body-wrapper').classList.remove('page-login');
+        document.getElementById('screen-login').classList.add('hidden');
+        document.getElementById('screen-main').classList.remove('hidden');
+      } else {
+        err.classList.remove('hidden');
+      }
+    });
 
-        function switchTab(tabId, el) {
-            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-            
-            el.classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+    // Chiqish tugmasi
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      document.getElementById('body-wrapper').classList.add('page-login');
+      document.getElementById('screen-main').classList.add('hidden');
+      document.getElementById('screen-login').classList.remove('hidden');
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+    });
 
-            if (tabId === 'dashboard') loadDashboard();
-            if (tabId === 'students') loadStudents();
-            if (tabId === 'teachers') loadTeachers();
-            if (tabId === 'grades') loadGrades();
-            if (tabId === 'announcements') loadAnnouncements();
-        }
-
-        async function apiFetch(endpoint) {
-            const res = await fetch(`${API_URL}/${endpoint}`, {
-                headers: { 'Authorization': `Bearer ${authToken}` }
-            });
-            if (res.status === 410 || res.status === 401) { logout(); return null; }
-            return res.json();
-        }
-
-        async function loadDashboard() {
-            const students = await apiFetch('students') || [];
-            const teachers = await apiFetch('teachers') || [];
-            const grades = await apiFetch('grades') || [];
-
-            document.getElementById('stat-students').innerText = students.length;
-            document.getElementById('stat-teachers').innerText = teachers.length;
-            document.getElementById('stat-grades').innerText = grades.length;
-        }
-
-        async function loadStudents() {
-            const list = await apiFetch('students') || [];
-            const tbody = document.getElementById('data-students');
-            tbody.innerHTML = list.length ? list.map(s => `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.class || s.cls || ''}</td></tr>`).join('') : `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Ma'lumot mavjud emas. (e-maktab)</td></tr>`;
-        }
-
-        async function loadTeachers() {
-            const list = await apiFetch('teachers') || [];
-            const tbody = document.getElementById('data-teachers');
-            tbody.innerHTML = list.length ? list.map(t => `<tr><td>${t.id}</td><td>${t.name}</td><td>${t.subject}</td></tr>`).join('') : `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Ma'lumot mavjud emas. (e-maktab)</td></tr>`;
-        }
-
-        async function loadGrades() {
-            const list = await apiFetch('grades') || [];
-            const tbody = document.getElementById('data-grades');
-            tbody.innerHTML = list.length ? list.map(g => `<tr><td>${g.student}</td><td>${g.subject}</td><td><strong>${g.grade}</strong></td><td>${g.date}</td></tr>`).join('') : `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Hozircha baholar qo'yilmagan.</td></tr>`;
-        }
-
-        async function loadAnnouncements() {
-            const list = await apiFetch('announcements') || [];
-            const container = document.getElementById('data-announcements');
-            container.innerHTML = list.length ? list.map(a => `<div class="ann-item ${a.type}"><div class="ann-header"><span>45-MAKTAB MA'MURIYATI</span><span>${a.date}</span></div><div class="ann-body"><h4>${a.title}</h4><p>${a.text}</p></div></div>`).join('') : `<p style="text-align:center; color:var(--text-muted);">Hozircha hech qanday e'lon mavjud emas.</p>`;
-        }
-    </script>
+    // Tablarni almashtirish paneli
+    document.querySelectorAll('sidebar li').forEach(li => {
+      li.addEventListener('click', function() {
+        document.querySelectorAll('sidebar li').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+        
+        this.classList.add('active');
+        const tab = this.getAttribute('data-tab');
+        document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      });
+    });
+  </script>
 </body>
 </html>
